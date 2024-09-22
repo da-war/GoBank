@@ -3,6 +3,11 @@ package main
 import "fmt"
 
 func main() {
+
+	var balance float64 = 1000
+	var deposit float64
+	var withdraw float64
+
 	fmt.Println("Hello, World!")
 	fmt.Println("Welcome to GoBank!")
 	fmt.Println("What would you like to do?")
@@ -17,19 +22,34 @@ func main() {
 	fmt.Scanln(&option)
 
 	if option == 1 {
-		fmt.Println("Creating a new account...")
-	}
-	if option == 2 {
-		fmt.Println("Depositing money...")
-	}
-	if option == 3 {
-		fmt.Println("Withdrawing money...")
-	}
-	if option == 4 {
-		fmt.Println("Checking balance...")
-	}
-	if option == 5 {
-		fmt.Println("Exiting...")
+		fmt.Println("Creating Your Account")
+	} else if option == 2 {
+		fmt.Println("Depositing Money")
+		fmt.Print("Enter the amount you would like to deposit: ")
+		fmt.Scan(&deposit)
+		balance += deposit
+		fmt.Println("Deposit Successful")
+		fmt.Println("Your new balance is: ", balance)
+	} else if option == 3 {
+		fmt.Println("Withdrawing Money")
+		fmt.Print("Enter the amount you would like to withdraw: ")
+		fmt.Scan(&withdraw)
+		if withdraw > balance {
+			fmt.Println("Insufficient Funds")
+		} else {
+			balance -= withdraw
+			fmt.Println("Withdrawal Successful")
+			fmt.Println("Your new balance is: ", balance)
+		}
+
+	} else if option == 4 {
+		fmt.Println("Checking Balance...")
+		fmt.Println("Your balance is: ", balance)
+	} else if option == 5 {
+		fmt.Println("Exiting")
+	} else {
+
+		fmt.Println("Invalid Option")
 	}
 
 }
