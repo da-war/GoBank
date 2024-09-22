@@ -23,6 +23,7 @@ func main() {
 
 	if option == 1 {
 		fmt.Println("Creating Your Account")
+		fmt.Println("Your account has been created successfully")
 	} else if option == 2 {
 		fmt.Println("Depositing Money")
 		fmt.Print("Enter the amount you would like to deposit: ")
