@@ -1,54 +1,25 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"os"
-	"strconv"
+
+	"dawar.com/banikingApp/fileops"
 )
 
 const balanceFile = "balance.txt"
 
-func writeBalanceFiles(balance float64) {
-	balanceText := fmt.Sprint(balance)
-	os.WriteFile(balanceFile, []byte(balanceText), 0644)
-}
-
-func readBalanceFiles() (float64, error) {
-	var balanceText, err = os.ReadFile(balanceFile)
-	if err != nil {
-		return 0, errors.New("Failed to read balance file")
-	}
-
-	balanceString := string(balanceText)
-	balance, err := strconv.ParseFloat(balanceString, 64)
-	if err != nil {
-		return 0, errors.New("Failed to convert balance to float")
-	}
-
-	return balance, nil
-}
-
 func main() {
-	var balance, error = readBalanceFiles()
+	var balance, error = fileops.ReadBalanceFiles(balanceFile)
 	if error != nil {
 		fmt.Println("Error ")
 		fmt.Println(error)
-		panic("Failed to read balance file")
+		// panic("Failed to read balance file")
 	}
 
 	var deposit float64
 	var withdraw float64
 
-	fmt.Println("Hello, World!")
-	fmt.Println("Welcome to GoBank!")
-	fmt.Println("What would you like to do?")
-	fmt.Println("Please select an option:")
-	fmt.Println("1. Create a new account")
-	fmt.Println("2. Deposit money")
-	fmt.Println("3. Withdraw money")
-	fmt.Println("4. Check balance")
-	fmt.Println("5. Exit")
+	presentMenu()
 
 	var option int
 	fmt.Scanln(&option)
@@ -96,7 +67,7 @@ func main() {
 		fmt.Print("Enter the amount you would like to deposit: ")
 		fmt.Scan(&deposit)
 		balance += deposit
-		writeBalanceFiles(balance)
+		fileops.WriteBalanceFiles(balance, balanceFile)
 		fmt.Println("Deposit Successful")
 		fmt.Println("Your new balance is: ", balance)
 	case 3:
@@ -107,7 +78,7 @@ func main() {
 			fmt.Println("Insufficient Funds")
 		} else {
 			balance -= withdraw
-			writeBalanceFiles(balance)
+			fileops.WriteBalanceFiles(balance, balanceFile)
 			fmt.Println("Withdrawal Successful")
 			fmt.Println("Your new balance is: ", balance)
 		}
