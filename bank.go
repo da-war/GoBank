@@ -1,10 +1,30 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
+const balanceFile = "balance.txt"
+
+func writeBalanceFiles(balance float64) {
+	balanceText := fmt.Sprint(balance)
+	os.WriteFile(balanceFile, []byte(balanceText), 0644)
+}
+
+func readBalanceFiles() float64 {
+	balanceText, _ := os.ReadFile(balanceFile)
+
+	balanceString := string(balanceText)
+	balance, _ := strconv.ParseFloat(balanceString, 64)
+
+	return balance
+}
 
 func main() {
+	var balance float64 = readBalanceFiles()
 
-	var balance float64 = 1000
 	var deposit float64
 	var withdraw float64
 
@@ -21,17 +41,53 @@ func main() {
 	var option int
 	fmt.Scanln(&option)
 
-	if option == 1 {
+	// if option == 1 {
+	// 	fmt.Println("Creating Your Account")
+	// 	fmt.Println("Your account has been created successfully")
+	// } else if option == 2 {
+	// 	fmt.Println("Depositing Money")
+	// 	fmt.Print("Enter the amount you would like to deposit: ")
+	// 	fmt.Scan(&deposit)
+	// 	balance += deposit
+	// 	fmt.Println("Deposit Successful")
+	// 	fmt.Println("Your new balance is: ", balance)
+	// } else if option == 3 {
+	// 	fmt.Println("Withdrawing Money")
+	// 	fmt.Print("Enter the amount you would like to withdraw: ")
+	// 	fmt.Scan(&withdraw)
+	// 	if withdraw > balance {
+	// 		fmt.Println("Insufficient Funds")
+	// 	} else {
+	// 		balance -= withdraw
+	// 		writeBalanceFiles(balance)
+	// 		fmt.Println("Withdrawal Successful")
+	// 		fmt.Println("Your new balance is: ", balance)
+	// 	}
+
+	// } else if option == 4 {
+	// 	fmt.Println("Checking Balance...")
+	// 	fmt.Println("Your balance is: ", balance)
+	// } else if option == 5 {
+	// 	fmt.Println("Exiting")
+	// } else {
+
+	// 	fmt.Println("Invalid Option")
+	// }
+	//changing above to switch
+
+	switch option {
+	case 1:
 		fmt.Println("Creating Your Account")
 		fmt.Println("Your account has been created successfully")
-	} else if option == 2 {
+	case 2:
 		fmt.Println("Depositing Money")
 		fmt.Print("Enter the amount you would like to deposit: ")
 		fmt.Scan(&deposit)
 		balance += deposit
+		writeBalanceFiles(balance)
 		fmt.Println("Deposit Successful")
 		fmt.Println("Your new balance is: ", balance)
-	} else if option == 3 {
+	case 3:
 		fmt.Println("Withdrawing Money")
 		fmt.Print("Enter the amount you would like to withdraw: ")
 		fmt.Scan(&withdraw)
@@ -39,18 +95,18 @@ func main() {
 			fmt.Println("Insufficient Funds")
 		} else {
 			balance -= withdraw
+			writeBalanceFiles(balance)
 			fmt.Println("Withdrawal Successful")
 			fmt.Println("Your new balance is: ", balance)
 		}
-
-	} else if option == 4 {
+	case 4:
 		fmt.Println("Checking Balance...")
 		fmt.Println("Your balance is: ", balance)
-	} else if option == 5 {
-		fmt.Println("Exiting")
-	} else {
-
+	case 5:
+		fmt.Println("Goodbye!")
+	default:
 		fmt.Println("Invalid Option")
+
 	}
 
 }
