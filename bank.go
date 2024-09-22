@@ -34,6 +34,7 @@ func main() {
 	if error != nil {
 		fmt.Println("Error ")
 		fmt.Println(error)
+		panic("Failed to read balance file")
 	}
 
 	var deposit float64
